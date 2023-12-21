@@ -9,3 +9,4 @@
 #   end
 
 Company.find_or_create_by!(name: "Company 1", location: "Location 1")
+User.first_or_create(email: "admin@test.com", password: "password", role: 1)
