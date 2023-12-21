@@ -23,6 +23,10 @@ class ApplicationController < ActionController::API
     render json: { error: exception.message }, status: :bad_request
   end
 
+  def not_found
+    render json: { error: 'Route not found. Please check URL' }, status: :not_found
+  end
+
   private
 
   def decode_jwt_token

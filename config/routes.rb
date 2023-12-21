@@ -7,12 +7,15 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  get "Company" => "companies#index", as: :companies_index
+  get "companies" => "companies#index", as: :companies_index
 
-  post "Company" => "companies#create", as: :company_create
+  post "company" => "companies#create", as: :company_create
 
   resources :users, only: [:create]
 
   post '/login', to: 'sessions#create'
 
+  get 'company', to: 'companies#show'
+
+  match '*path', to: 'application#not_found', via: :all
 end
