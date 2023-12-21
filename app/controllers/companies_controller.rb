@@ -3,12 +3,22 @@ class CompaniesController < ApplicationController
   before_action :authorize_admin!, only: [:create]
 
   def index
-    companies = Company.all
+    if params[:name]
+      companies = Company.where(name: params[:name])
+    else
+      companies = Company.all
+    end
+
     render json: companies, only: [:name, :location]
   end
 
+  def show
+    company = Company.find(params[:id])
+    render json: company, only: [:name, :location]
+  end
+
   def create
-    return render json: { error: 'Name and location both are required' }, status: :bad_request if company_params[:name].blank? || company_params[:location].blank?
+    return render json: { error: 'Company name and location both are required' }, status: :bad_request if company_params[:name].blank? || company_params[:location].blank?
 
     company = Company.create(company_params)
     render json: company, only: [:name, :location]
