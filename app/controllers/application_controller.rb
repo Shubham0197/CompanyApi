@@ -15,6 +15,14 @@ class ApplicationController < ActionController::API
     render json: { error: 'Unauthorized' }, status: :unauthorized
   end
 
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    render json: { error: exception.message }, status: :not_found
+  end
+
+  rescue_from ActionController::ParameterMissing do |exception|
+    render json: { error: exception.message }, status: :bad_request
+  end
+
   private
 
   def decode_jwt_token
