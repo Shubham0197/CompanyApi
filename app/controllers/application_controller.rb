@@ -1,12 +1,21 @@
 class ApplicationController < ActionController::API
 
   def authenticate_user!
-    head :unauthorized unless current_user
+    render json: { error: 'Authorization key not found or Incorrect' }, status: :unauthorized unless current_user
   end
 
   def current_user
     @current_user ||= decode_jwt_token
   end
+
+  def authorize_admin!
+
+    return if current_user && current_user.admin?
+  
+    render json: { error: 'Unauthorized' }, status: :unauthorized
+  end
+
+  private
 
   def decode_jwt_token
     token = request.headers['Authorization']&.split&.last

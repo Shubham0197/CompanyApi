@@ -16,13 +16,6 @@ class CompaniesController < ApplicationController
 
   private
 
-  def authorize_admin!
-
-    return if current_user && current_user.admin?
-  
-    render json: { error: 'Unauthorized' }, status: :unauthorized
-  end
-
   def company_params
     params.require(:company).permit(:name, :location)
   end

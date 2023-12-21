@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!, only: [:create]
+  before_action :authorize_admin!, only: [:create]
+  
   def create
     user = User.new(user_params)
 
